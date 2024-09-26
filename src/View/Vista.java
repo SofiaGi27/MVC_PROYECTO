@@ -24,6 +24,7 @@ public class Vista {
 		System.out.println("1) Fichero de Texto");
 		System.out.println("2) Fichero Binario");
 		System.out.println("3) Fichero XML");
+		System.out.println("0) Salir");
 		System.out.print("Ingrese su opción: ");
 		return scanner.nextInt();
 	}

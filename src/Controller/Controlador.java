@@ -5,11 +5,10 @@ import java.util.HashMap;
 import Model.IAccesoDatos;
 
 import Model.Pelicula;
+import Model.fileManager.ficheroBinario;
 import Model.fileManager.ficheroTexto;
 import Model.fileManager.ficheroXML;
 import View.Vista;
-
-
 
 public class Controlador {
 
@@ -32,13 +31,15 @@ public class Controlador {
 				accesoDatos = new ficheroTexto("Ficheros/peliculas.txt");
 				break;
 			case 2:
-				accesoDatos = new ficheroXML("Ficheros/peliculas.dat"); 
+				accesoDatos = new ficheroBinario("Ficheros/peliculas.dat");
 				break;
-				
 			case 3:
 				accesoDatos = new ficheroXML("Ficheros/peliculas.xml");
 				break;
-				
+			case 0:
+				System.out.println("El programa ha finalizado.");
+				salir = true; // Cambia salir a true para salir del bucle principal
+				continue; // No es necesario, pero puedes usarlo para evitar mostrar el segundo menú
 			default:
 				System.out.println("Opción no válida. Intente de nuevo.");
 				continue; // Volver a mostrar el menú
@@ -57,8 +58,7 @@ public class Controlador {
 						break;
 
 					case 2: // Leer
-						HashMap<Integer, Pelicula> peliculas = accesoDatos.leerTodos(); // Asegúrate de que estás
-																						// llamando a este método
+						HashMap<Integer, Pelicula> peliculas = accesoDatos.leerTodos();
 						if (peliculas.isEmpty()) {
 							System.out.println("No hay películas disponibles.");
 						} else {
@@ -69,15 +69,14 @@ public class Controlador {
 						break;
 
 					case 3: // Modificar
-						Pelicula peliculaModificar = vista.obtenerDatosPelicula(); // Suponiendo que obtiene los datos
-																					// con el mismo método
+						Pelicula peliculaModificar = vista.obtenerDatosPelicula();
 						accesoDatos.modificar(peliculaModificar);
 						System.out.println("Película modificada exitosamente.");
 						break;
 
 					case 4: // Borrar
 						System.out.print("Ingrese el ID de la película a borrar: ");
-						int idBorrar = vista.obtenerId(); // Método que pide el ID al usuario
+						int idBorrar = vista.obtenerId();
 						accesoDatos.borrar(idBorrar);
 						System.out.println("Película borrada exitosamente.");
 						break;
@@ -90,10 +89,10 @@ public class Controlador {
 						System.out.println("Opción no válida. Intente de nuevo.");
 					}
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 		}
 	}
+
 }
