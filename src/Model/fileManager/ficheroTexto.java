@@ -51,7 +51,6 @@ public class ficheroTexto implements IAccesoDatos {
 		}
 	}
 
-
 	@Override
 	public void añadir(Pelicula pelicula) {
 
@@ -62,7 +61,6 @@ public class ficheroTexto implements IAccesoDatos {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	@Override
