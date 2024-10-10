@@ -1,10 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<peliculas>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><peliculas>
     <pelicula>
         <id>1</id>
-        <titulo>El Padrino</titulo>
-        <director>Francis Ford Coppola</director>
-        <anio>1972</anio>
+        <titulo>Elpadrino</titulo>
+        <director>Francis</director>
+        <anio>2000</anio>
         <genero>Drama</genero>
     </pelicula>
     <pelicula>
@@ -20,5 +19,5 @@
         <director>Damien Chazelle</director>
         <anio>2016</anio>
         <genero>Musical</genero>
-    </pelicula>
+    </pelicula>    
 </peliculas>
