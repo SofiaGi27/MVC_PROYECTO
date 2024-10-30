@@ -14,6 +14,7 @@ public class Aplicacion {
         
         controlador.iniciar(); // Iniciar la aplicación
         //hOLA SOFIA
+        //hola gean
     }
 }
 
