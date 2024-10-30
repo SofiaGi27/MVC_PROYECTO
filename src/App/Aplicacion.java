@@ -13,6 +13,7 @@ public class Aplicacion {
         Controlador controlador = new Controlador(vista, accesoDatos);
         
         controlador.iniciar(); // Iniciar la aplicación
+        //hOLA SOFIA
     }
 }
 
