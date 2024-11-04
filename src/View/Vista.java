@@ -17,6 +17,9 @@ public class Vista {
 		System.out.println("1) Fichero de Texto");
 		System.out.println("2) Fichero Binario");
 		System.out.println("3) Fichero XML");
+	    System.out.println("4) Base de Datos MySQL"); // Nueva opción para verificar conexión MySQL
+	    System.out.println("5) Base de Datos SQLite"); // Nueva opción para verificar conexión SQLite
+	    System.out.println("6) Hibernate"); // Nueva opción para verificar conexión Hibernate
 		System.out.println("0) Salir");
 		System.out.print("Ingrese su opción: ");
 		return scanner.nextInt();
@@ -28,7 +31,8 @@ public class Vista {
 		System.out.println("2) Leer películas");
 		System.out.println("3) Modificar película");
 		System.out.println("4) Borrar película");
-		System.out.println("5) Salir");
+		System.out.println("5) Buscar Película");
+		System.out.println("6) Salir");
 		System.out.print("Ingrese su opción: ");
 		return scanner.nextInt();
 	}

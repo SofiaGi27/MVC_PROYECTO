@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?> <!-- Declaración de versión XML -->
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd"> <!-- Declaración del DTD para la configuración de Hibernate -->
+
+<hibernate-configuration> <!-- Comienza la configuración de Hibernate -->
+    <session-factory> <!-- Define la fábrica de sesiones de Hibernate -->
+        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property> <!-- Especifica el controlador JDBC para conectarse a MySQL -->
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property> <!-- Especifica el dialecto de la base de datos MySQL -->
+        <property name="hibernate.connection.username">root</property> <!-- Usuario para la conexión a la base de datos -->
+        <property name="hibernate.connection.password">root</property> <!-- Contraseña para la conexión a la base de datos -->
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/peliculasdb</property>
+        <property name="show_sql">false</property> <!-- Muestra las consultas SQL generadas por Hibernate en la consola -->
+        <!-- <property name="hibernate.hbm2ddl.auto">create-drop</property> --> <!-- Esta propiedad permite crear y eliminar tablas automáticamente en la base de datos -->
+        <mapping resource="Model/Pelicula.hbm.xml" /> <!-- Especifica el archivo de mapeo de la clase 'Employee' para la persistencia en la base de datos -->    	
+    </session-factory>
+</hibernate-configuration> <!-- Fin de la configuración de Hibernate -->

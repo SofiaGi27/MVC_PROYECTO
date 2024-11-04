@@ -51,6 +51,7 @@ public class ficheroTexto implements IAccesoDatos {
 		}
 	}
 
+
 	@Override
 	public void añadir(Pelicula pelicula) {
 
@@ -61,6 +62,7 @@ public class ficheroTexto implements IAccesoDatos {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
 	}
 
 	@Override
@@ -79,4 +81,9 @@ public class ficheroTexto implements IAccesoDatos {
 
 	}
 
+	@Override
+	public Pelicula buscar(int id) {
+		HashMap<Integer, Pelicula> peliculas = leerTodos();
+	    return peliculas.getOrDefault(id, null);
+	}	
 }

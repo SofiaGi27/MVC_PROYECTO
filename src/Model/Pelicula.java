@@ -12,9 +12,15 @@ public class Pelicula implements Serializable {
     private int anio;
     private String genero;
     
-    private static final Set<String> GENEROS_VALIDOS = Set.of("Drama", "Ciencia Ficción", "Musical", "Acción", "Comedia", "Terror");
+    private static final Set<String> GENEROS_VALIDOS = Set.of("Drama", "Ciencia Ficción", "Musical", "Acción", "Comedia", "Terror");//hay que cambiarlo
 
-    public Pelicula(int id, String titulo, String director, int anio, String genero) {
+    
+    
+    public Pelicula() {
+		//Hibernate
+	}
+
+	public Pelicula(int id, String titulo, String director, int anio, String genero) {
         setId(id);
         setTitulo(titulo);
         setDirector(director);

@@ -1,228 +1,193 @@
 package Model.fileManager;
 
+import java.io.File;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.input.SAXBuilder;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
+
 import Model.IAccesoDatos;
 import Model.Pelicula;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.HashMap;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Node;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
 public class ficheroXML implements IAccesoDatos {
-    private String rutaFichero;
 
-    public ficheroXML(String rutaFichero) {
-        this.rutaFichero = rutaFichero;
-    }
+	private File xmlFile;
 
-    @Override
-    public HashMap<Integer, Pelicula> leerTodos() {
-        // Crear un HashMap para almacenar las películas
-        HashMap<Integer, Pelicula> peliculas = new HashMap<>();
+	public ficheroXML(String filePath) {
+		this.xmlFile = new File(filePath);
+	}
 
-        try {
-            // Crear una fábrica para el parser de SAX
-            SAXParserFactory factory = SAXParserFactory.newInstance();
+	@Override
+	public void añadir(Pelicula pelicula) {
+		try {
+			SAXBuilder saxBuilder = new SAXBuilder();
+			Document document = saxBuilder.build(xmlFile);
+			Element rootElement = document.getRootElement();
 
-            // Crear un objeto SAXParser
-            SAXParser saxParser = factory.newSAXParser();
+			// Crear el nuevo elemento "pelicula"
+			Element peliculaElement = new Element("pelicula");
+			peliculaElement.addContent(new Element("id").setText(String.valueOf(pelicula.getId())));
+			peliculaElement.addContent(new Element("titulo").setText(pelicula.getTitulo()));
+			peliculaElement.addContent(new Element("director").setText(pelicula.getDirector()));
+			peliculaElement.addContent(new Element("anio").setText(String.valueOf(pelicula.getAnio())));
+			peliculaElement.addContent(new Element("genero").setText(pelicula.getGenero()));
 
-            // Crear una instancia de tu handler
-            PeliculasHandler handler = new PeliculasHandler();
+			// Añadir la nueva película al root
+			rootElement.addContent(peliculaElement);
 
-            // Usar el parser para analizar el archivo XML y pasar el control al handler
-            saxParser.parse(rutaFichero, handler);
+			// Guardar el documento modificado
+			guardarDocumento(document);
 
-            // Obtener las películas procesadas por el handler
-            peliculas = handler.getPeliculas();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+			System.out.println("Película añadida: " + pelicula.getTitulo());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
-        // Retornar el HashMap con las películas
-        return peliculas;
-    }
+	@Override
+	public void modificar(Pelicula pelicula) {
+		try {
+			SAXBuilder saxBuilder = new SAXBuilder();
+			Document document = saxBuilder.build(xmlFile);
+			Element rootElement = document.getRootElement();
 
-    // Métodos añadir, modificar, borrar y escribirTodos aquí...
-    
-    @Override
-    public void añadir(Pelicula pelicula) {
-        try {
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc;
+			List<Element> peliculas = rootElement.getChildren("pelicula");
 
-            File archivo = new File(rutaFichero);
-            if (archivo.exists()) {
-                doc = dBuilder.parse(archivo);
-            } else {
-                doc = dBuilder.newDocument();
-                Element rootElement = doc.createElement("peliculas");
-                doc.appendChild(rootElement);
-            }
+			for (Element peliculaElement : peliculas) {
+				int peliculaId = Integer.parseInt(peliculaElement.getChildText("id"));
+				if (peliculaId == pelicula.getId()) {
+					peliculaElement.getChild("titulo").setText(pelicula.getTitulo());
+					peliculaElement.getChild("director").setText(pelicula.getDirector());
+					peliculaElement.getChild("anio").setText(String.valueOf(pelicula.getAnio()));
+					peliculaElement.getChild("genero").setText(pelicula.getGenero());
+					System.out.println("Película actualizada: " + pelicula.getTitulo());
+					break;
+				}
+			}
 
-            Element peliculaElement = doc.createElement("pelicula");
-            doc.getDocumentElement().appendChild(peliculaElement);
+			// Guardar el documento modificado
+			guardarDocumento(document);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
-            Element idElement = doc.createElement("id");
-            idElement.appendChild(doc.createTextNode(String.valueOf(pelicula.getId())));
-            peliculaElement.appendChild(idElement);
+	@Override
+	public HashMap<Integer, Pelicula> leerTodos() {
+		HashMap<Integer, Pelicula> peliculasMap = new HashMap<>();
+		try {
+			SAXBuilder saxBuilder = new SAXBuilder();
+			Document document = saxBuilder.build(xmlFile);
+			Element rootElement = document.getRootElement();
 
-            Element tituloElement = doc.createElement("titulo");
-            tituloElement.appendChild(doc.createTextNode(pelicula.getTitulo()));
-            peliculaElement.appendChild(tituloElement);
+			List<Element> peliculas = rootElement.getChildren("pelicula");
+			for (Element peliculaElement : peliculas) {
+				int id = Integer.parseInt(peliculaElement.getChildText("id"));
+				String titulo = peliculaElement.getChildText("titulo");
+				String director = peliculaElement.getChildText("director");
+				int anio = Integer.parseInt(peliculaElement.getChildText("anio"));
+				String genero = peliculaElement.getChildText("genero");
 
-            Element directorElement = doc.createElement("director");
-            directorElement.appendChild(doc.createTextNode(pelicula.getDirector()));
-            peliculaElement.appendChild(directorElement);
+				Pelicula pelicula = new Pelicula(id, titulo, director, anio, genero);
+				peliculasMap.put(id, pelicula);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return peliculasMap;
+	}
 
-            Element anioElement = doc.createElement("anio");
-            anioElement.appendChild(doc.createTextNode(String.valueOf(pelicula.getAnio())));
-            peliculaElement.appendChild(anioElement);
+	@Override
+	public void escribirTodos(HashMap<Integer, Pelicula> listaPeliculas) {
+		try {
+			Element rootElement = new Element("peliculas");
+			Document document = new Document(rootElement);
 
-            Element generoElement = doc.createElement("genero");
-            generoElement.appendChild(doc.createTextNode(pelicula.getGenero()));
-            peliculaElement.appendChild(generoElement);
+			for (Pelicula pelicula : listaPeliculas.values()) {
+				Element peliculaElement = new Element("pelicula");
 
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(archivo);
-            transformer.transform(source, result);
+				peliculaElement.addContent(new Element("id").setText(String.valueOf(pelicula.getId())));
+				peliculaElement.addContent(new Element("titulo").setText(pelicula.getTitulo()));
+				peliculaElement.addContent(new Element("director").setText(pelicula.getDirector()));
+				peliculaElement.addContent(new Element("anio").setText(String.valueOf(pelicula.getAnio())));
+				peliculaElement.addContent(new Element("genero").setText(pelicula.getGenero()));
 
-            System.out.println("Película añadida con éxito: " + pelicula.getTitulo());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+				rootElement.addContent(peliculaElement);
+			}
 
-    @Override
-    public void modificar(Pelicula pelicula) {
-        try {
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(rutaFichero);
-            doc.getDocumentElement().normalize();
+			// Guardar el documento modificado
+			guardarDocumento(document);
 
-            NodeList nList = doc.getElementsByTagName("pelicula");
+			System.out.println("Películas escritas en el archivo.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
-            for (int i = 0; i < nList.getLength(); i++) {
-                Node node = nList.item(i);
-                if (node.getNodeType() == Node.ELEMENT_NODE) {
-                    Element element = (Element) node;
-                    int id = Integer.parseInt(element.getElementsByTagName("id").item(0).getTextContent());
+	@Override
+	public void borrar(int id) {
+		try {
+			SAXBuilder saxBuilder = new SAXBuilder();
+			Document document = saxBuilder.build(xmlFile);
+			Element rootElement = document.getRootElement();
 
-                    if (id == pelicula.getId()) {
-                        element.getElementsByTagName("titulo").item(0).setTextContent(pelicula.getTitulo());
-                        element.getElementsByTagName("director").item(0).setTextContent(pelicula.getDirector());
-                        element.getElementsByTagName("anio").item(0).setTextContent(String.valueOf(pelicula.getAnio()));
-                        element.getElementsByTagName("genero").item(0).setTextContent(pelicula.getGenero());
+			List<Element> peliculas = rootElement.getChildren("pelicula");
 
-                        System.out.println("Película modificada con éxito: " + pelicula.getTitulo());
-                        break;
-                    }
-                }
-            }
+			for (Element peliculaElement : peliculas) {
+				int peliculaId = Integer.parseInt(peliculaElement.getChildText("id"));
+				if (peliculaId == id) {
+					peliculas.remove(peliculaElement);
+					System.out.println("Película eliminada: ID " + id);
+					break;
+				}
+			}
 
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(rutaFichero);
-            transformer.transform(source, result);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+			// Guardar el documento modificado
+			guardarDocumento(document);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
-    @Override
-    public void borrar(int id) {
-        try {
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(rutaFichero);
-            doc.getDocumentElement().normalize();
+	// Método para guardar los cambios en el archivo XML
+	private void guardarDocumento(Document document) {
+		try {
+			XMLOutputter xmlOutputter = new XMLOutputter(Format.getPrettyFormat());
+			xmlOutputter.output(document, new FileOutputStream(xmlFile));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
-            NodeList nList = doc.getElementsByTagName("pelicula");
+	@Override
+	public Pelicula buscar(int id) {
+	    try {
+	        SAXBuilder saxBuilder = new SAXBuilder();
+	        Document document = saxBuilder.build(xmlFile);
+	        Element rootElement = document.getRootElement();
 
-            for (int i = 0; i < nList.getLength(); i++) {
-                Node node = nList.item(i);
-                if (node.getNodeType() == Node.ELEMENT_NODE) {
-                    Element element = (Element) node;
-                    int peliculaId = Integer.parseInt(element.getElementsByTagName("id").item(0).getTextContent());
+	        List<Element> peliculas = rootElement.getChildren("pelicula");
 
-                    if (peliculaId == id) {
-                        element.getParentNode().removeChild(element);
-                        System.out.println("Película eliminada con éxito: " + peliculaId);
-                        break;
-                    }
-                }
-            }
+	        for (Element peliculaElement : peliculas) {
+	            int peliculaId = Integer.parseInt(peliculaElement.getChildText("id"));
+	            if (peliculaId == id) {
+	                String titulo = peliculaElement.getChildText("titulo");
+	                String director = peliculaElement.getChildText("director");
+	                int anio = Integer.parseInt(peliculaElement.getChildText("anio"));
+	                String genero = peliculaElement.getChildText("genero");
 
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(rutaFichero);
-            transformer.transform(source, result);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void escribirTodos(HashMap<Integer, Pelicula> lista) {
-        try {
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.newDocument();
-            Element rootElement = doc.createElement("peliculas");
-            doc.appendChild(rootElement);
-
-            for (Pelicula pelicula : lista.values()) {
-                Element peliculaElement = doc.createElement("pelicula");
-
-                Element idElement = doc.createElement("id");
-                idElement.appendChild(doc.createTextNode(String.valueOf(pelicula.getId())));
-                peliculaElement.appendChild(idElement);
-
-                Element tituloElement = doc.createElement("titulo");
-                tituloElement.appendChild(doc.createTextNode(pelicula.getTitulo()));
-                peliculaElement.appendChild(tituloElement);
-
-                Element directorElement = doc.createElement("director");
-                directorElement.appendChild(doc.createTextNode(pelicula.getDirector()));
-                peliculaElement.appendChild(directorElement);
-
-                Element anioElement = doc.createElement("anio");
-                anioElement.appendChild(doc.createTextNode(String.valueOf(pelicula.getAnio())));
-                peliculaElement.appendChild(anioElement);
-
-                Element generoElement = doc.createElement("genero");
-                generoElement.appendChild(doc.createTextNode(pelicula.getGenero()));
-                peliculaElement.appendChild(generoElement);
-
-                rootElement.appendChild(peliculaElement);
-            }
-
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(rutaFichero);
-            transformer.transform(source, result);
-            System.out.println("Todas las películas han sido escritas en el archivo XML.");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+	                return new Pelicula(peliculaId, titulo, director, anio, genero);
+	            }
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return null; // Si no se encuentra la película, retorna null
+	}
 }

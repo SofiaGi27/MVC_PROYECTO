@@ -74,4 +74,11 @@ public class ficheroBinario implements IAccesoDatos {
 			System.out.println("Película no encontrada.");
 		}
 	}
+
+	// Buscar una película por ID
+    @Override
+    public Pelicula buscar(int id) {
+        HashMap<Integer, Pelicula> peliculas = leerTodos();
+        return peliculas.get(id); // Devuelve la película si se encuentra, o null si no
+    }	
 }

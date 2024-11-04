@@ -1,0 +1,31 @@
+<?xml version="1.0"?> <!-- Declaración de versión XML -->
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd"> <!-- Declaración del DTD para mapeo de Hibernate -->
+
+<hibernate-mapping> <!-- Comienza el mapeo de Hibernate -->
+
+    <class name="Model.Pelicula" table="peliculas">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="increment" />
+        </id>
+
+        <property name="titulo" type="string">
+            <column name="titulo" length="255" not-null="true" /> <!-- Mapea 'empName' a la columna 'nombre' con longitud 30 y no puede ser nulo -->
+        </property>
+        
+        <property name="director" type="string"> <!-- Mapea la propiedad 'empApellido' -->
+            <column name="director" length="255" not-null="true" /> <!-- Mapea 'empApellido' a la columna 'apellidos' con longitud 50 y no puede ser nulo -->
+        </property>
+        
+        <property name="anio" type="int"> <!-- Mapea la propiedad 'empApellido' -->
+            <column name="anio" not-null="false" />
+        </property>
+        
+        <property name="genero" type="string"> <!-- Mapea la propiedad 'empApellido' -->
+            <column name="genero" length="100" not-null="true" /> <!-- Mapea 'empApellido' a la columna 'apellidos' con longitud 50 y no puede ser nulo -->
+        </property>
+        
+    </class>
+
+</hibernate-mapping>

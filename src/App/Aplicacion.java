@@ -1,6 +1,6 @@
 package App;
 
-import java.util.Scanner;
+
 
 import Controller.Controlador;
 import Model.IAccesoDatos;
@@ -13,11 +13,6 @@ public class Aplicacion {
         Controlador controlador = new Controlador(vista, accesoDatos);
         
         controlador.iniciar(); // Iniciar la aplicación
-        //hOLA SOFIA
-        //hola gean
-        // hola stefany
-        //HOLA SAPOS
-        // ya quiero ir a almorzar
     }
 }
 
