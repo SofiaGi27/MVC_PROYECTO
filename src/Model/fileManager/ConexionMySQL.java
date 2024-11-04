@@ -190,7 +190,7 @@ public class ConexionMySQL implements IAccesoDatos { // Clase que implementa la 
             cerrar(); // Cierra la conexión después de usarla.
         }
     }
-
+//aaaaaaa
     @Override
     public void escribirTodos(HashMap<Integer, Pelicula> lista) { // Método para escribir todas las películas (no implementado).
         // TODO Auto-generated method stub
