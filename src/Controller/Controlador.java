@@ -101,16 +101,14 @@ public class Controlador {
                             System.out.println("Película modificada exitosamente.");
                             break;
 
-                        case 4: // Borrar
-                            System.out.print("Ingrese el ID de la película a borrar: ");
+                        case 4: // Borrar                            
                             int idBorrar = vista.obtenerId();
                             accesoDatos.borrar(idBorrar);
                             System.out.println("Película borrada exitosamente.");
                             break;
                             
-                        case 5: // Buscar
-                            System.out.print("Ingrese el ID de la película a buscar: ");
-                            int idBuscar = vista.obtenerId(); // Asegúrate de tener este método en Vista
+                        case 5: // Buscar                            
+                            int idBuscar = vista.obtenerId();
                             Pelicula peliculaBuscada = accesoDatos.buscar(idBuscar);
                             if (peliculaBuscada != null) {
                                 System.out.println("Película encontrada: " + peliculaBuscada);
