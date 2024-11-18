@@ -12,7 +12,6 @@ import Model.Pelicula;
 
 public class ficheroTexto implements IAccesoDatos {
 	private String rutaFichero;
-	
 
 	public ficheroTexto(String rutaFichero) {
 		this.rutaFichero = rutaFichero;
@@ -51,19 +50,18 @@ public class ficheroTexto implements IAccesoDatos {
 		}
 	}
 
-
-	@Override
-	public void añadir(Pelicula pelicula) {
-
-		try (BufferedWriter bw = new BufferedWriter(new FileWriter(rutaFichero, true))) {
-			bw.write(pelicula.getId() + "," + pelicula.getTitulo() + "," + pelicula.getDirector() + ","
-					+ pelicula.getAnio() + "," + pelicula.getGenero());
-			bw.newLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-	}
+    @Override
+    public void añadir(Pelicula pelicula) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(rutaFichero, true))) {  // false para sobrescribir el archivo
+            // Escribir los datos de la película en el archivo
+            bw.write(pelicula.getId() + "," + pelicula.getTitulo() + "," + pelicula.getDirector() + "," 
+                      + pelicula.getAnio() + "," + pelicula.getGenero());
+            bw.newLine(); // Salto de línea después de cada película
+        } catch (IOException e) {
+            System.out.println("Error al escribir en ficheroTexto: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
 	@Override
 	public void modificar(Pelicula pelicula) {
@@ -84,6 +82,6 @@ public class ficheroTexto implements IAccesoDatos {
 	@Override
 	public Pelicula buscar(int id) {
 		HashMap<Integer, Pelicula> peliculas = leerTodos();
-	    return peliculas.getOrDefault(id, null);
-	}	
+		return peliculas.getOrDefault(id, null);
+	}
 }

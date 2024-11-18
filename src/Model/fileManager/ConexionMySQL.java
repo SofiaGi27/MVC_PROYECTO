@@ -192,7 +192,27 @@ public class ConexionMySQL implements IAccesoDatos { // Clase que implementa la 
     }
 //aaaaaaa
     @Override
-    public void escribirTodos(HashMap<Integer, Pelicula> lista) { // Método para escribir todas las películas (no implementado).
-        // TODO Auto-generated method stub
+    public void escribirTodos(HashMap<Integer, Pelicula> lista) {
+        // Verifica si la conexión está establecida
+        if (conectar() == null) {
+            throw new IllegalStateException("La conexión no está inicializada. Asegúrate de conectar primero.");
+        }
+
+        // Consulta SQL para eliminar todas las películas
+        String sqlBorrar = "DELETE FROM peliculas";
+        try (PreparedStatement statementBorrar = conexion.prepareStatement(sqlBorrar)) {
+            statementBorrar.executeUpdate(); // Ejecuta el borrado de todas las películas
+            System.out.println("Todas las películas existentes han sido eliminadas.");
+        } catch (SQLException e) {
+            // Manejo de excepciones en caso de error al borrar
+            System.out.println("Error al intentar borrar todas las películas: " + e.getMessage());
+            return;
+        }
+
+        // Inserta cada película del HashMap en la base de datos
+        lista.forEach((id, pelicula) -> añadir(pelicula));
+
+        System.out.println("Se han añadido todas las películas de la lista.");
     }
+
 }

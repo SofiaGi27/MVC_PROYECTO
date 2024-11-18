@@ -32,7 +32,8 @@ public class Vista {
 		System.out.println("3) Modificar película");
 		System.out.println("4) Borrar película");
 		System.out.println("5) Buscar Película");
-		System.out.println("6) Salir");
+		System.out.println("6) Copia de Seguridad");
+		System.out.println("7) Salir");
 		System.out.print("Ingrese su opción: ");
 		return scanner.nextInt();
 	}
