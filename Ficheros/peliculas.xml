@@ -1,23 +1,24 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><peliculas>
-    <pelicula>
-        <id>1</id>
-        <titulo>Elpadrino</titulo>
-        <director>Francis</director>
-        <anio>2000</anio>
-        <genero>Drama</genero>
-    </pelicula>
-    <pelicula>
-        <id>2</id>
-        <titulo>Interestelar</titulo>
-        <director>Christopher Nolan</director>
-        <anio>2014</anio>
-        <genero>Ciencia Ficción</genero>
-    </pelicula>
-    <pelicula>
-        <id>3</id>
-        <titulo>La La Land</titulo>
-        <director>Damien Chazelle</director>
-        <anio>2016</anio>
-        <genero>Musical</genero>
-    </pelicula>    
+<?xml version="1.0" encoding="UTF-8"?>
+<peliculas>
+  <pelicula>
+    <id>1</id>
+    <titulo>Elpadrino</titulo>
+    <director>Francis</director>
+    <anio>2000</anio>
+    <genero>Drama</genero>
+  </pelicula>
+  <pelicula>
+    <id>2</id>
+    <titulo>Interestelar</titulo>
+    <director>Christopher Nolan</director>
+    <anio>2014</anio>
+    <genero>Ciencia Ficción</genero>
+  </pelicula>
+  <pelicula>
+    <id>3</id>
+    <titulo>La La Land</titulo>
+    <director>Damien Chazelle</director>
+    <anio>2016</anio>
+    <genero>Musical</genero>
+  </pelicula>
 </peliculas>

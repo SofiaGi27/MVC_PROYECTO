@@ -1,6 +1,6 @@
-package Model; // Declara el paquete donde se encuentra esta interfaz
+package Model; 
 
-import java.util.HashMap; // Importa la clase para utilizar mapas que almacenan pares clave-valor
+import java.util.HashMap; 
 
 // Interfaz que define los métodos necesarios para el acceso a datos de películas
 public interface IAccesoDatos {

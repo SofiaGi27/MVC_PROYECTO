@@ -23,6 +23,9 @@ public class ficheroXML implements IAccesoDatos {
 		this.xmlFile = new File(filePath);
 	}
 
+	/* Método para añadir una nueva película al archivo XML
+	 *  Se usa SAXBuilder para leer el XML
+	 */
 	@Override
 	public void añadir(Pelicula pelicula) {
 		try {
@@ -50,6 +53,7 @@ public class ficheroXML implements IAccesoDatos {
 		}
 	}
 
+	 // Método para modificar una película en el archivo XML
 	@Override
 	public void modificar(Pelicula pelicula) {
 		try {
@@ -59,6 +63,7 @@ public class ficheroXML implements IAccesoDatos {
 
 			List<Element> peliculas = rootElement.getChildren("pelicula");
 
+			 // Buscar la película por su ID y modificar sus datos
 			for (Element peliculaElement : peliculas) {
 				int peliculaId = Integer.parseInt(peliculaElement.getChildText("id"));
 				if (peliculaId == pelicula.getId()) {
@@ -78,6 +83,7 @@ public class ficheroXML implements IAccesoDatos {
 		}
 	}
 
+	// Método para leer todas las películas del archivo XML
 	@Override
 	public HashMap<Integer, Pelicula> leerTodos() {
 		HashMap<Integer, Pelicula> peliculasMap = new HashMap<>();
@@ -103,6 +109,7 @@ public class ficheroXML implements IAccesoDatos {
 		return peliculasMap;
 	}
 
+	 // Método para escribir todas las películas al archivo XML
 	@Override
 	public void escribirTodos(HashMap<Integer, Pelicula> listaPeliculas) {
 		try {
@@ -130,6 +137,7 @@ public class ficheroXML implements IAccesoDatos {
 		}
 	}
 
+    // Método para borrar una película del archivo XML por su ID
 	@Override
 	public void borrar(int id) {
 		try {
@@ -142,7 +150,7 @@ public class ficheroXML implements IAccesoDatos {
 			for (Element peliculaElement : peliculas) {
 				int peliculaId = Integer.parseInt(peliculaElement.getChildText("id"));
 				if (peliculaId == id) {
-					peliculas.remove(peliculaElement);
+					peliculas.remove(peliculaElement); // Elimina la película
 					System.out.println("Película eliminada: ID " + id);
 					break;
 				}
@@ -165,6 +173,7 @@ public class ficheroXML implements IAccesoDatos {
 		}
 	}
 
+	// Buscar la película por su ID y devolverla si se encuentra
 	@Override
 	public Pelicula buscar(int id) {
 	    try {
@@ -182,7 +191,7 @@ public class ficheroXML implements IAccesoDatos {
 	                int anio = Integer.parseInt(peliculaElement.getChildText("anio"));
 	                String genero = peliculaElement.getChildText("genero");
 
-	                return new Pelicula(peliculaId, titulo, director, anio, genero);
+	                return new Pelicula(peliculaId, titulo, director, anio, genero);// Devuelve la película encontrada
 	            }
 	        }
 	    } catch (Exception e) {

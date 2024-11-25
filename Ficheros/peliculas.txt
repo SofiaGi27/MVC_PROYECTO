@@ -1,3 +1,6 @@
 1,Elpadrino,Francis,2000,Drama
 2,Interestelar,Christopher Nolan,2014,Ciencia Ficción
 3,La La Land,Damien Chazelle,2016,Musical
+987,gean,gean,2020,Drama
+4,ingles,profesora,2023,Comedia
+5,asdf,dfdfd,2015,Drama

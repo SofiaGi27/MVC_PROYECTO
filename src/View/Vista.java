@@ -12,19 +12,23 @@ public class Vista {
 		this.scanner = new Scanner(System.in);
 	}
 
+	// Método que muestra el menú para seleccionar el tipo de acceso a datos y
+	// devuelve la opción seleccionada
 	public int mostrarMenuTipoAcceso() {
 		System.out.println("Seleccione el tipo de acceso a datos:");
 		System.out.println("1) Fichero de Texto");
 		System.out.println("2) Fichero Binario");
 		System.out.println("3) Fichero XML");
-	    System.out.println("4) Base de Datos MySQL"); // Nueva opción para verificar conexión MySQL
-	    System.out.println("5) Base de Datos SQLite"); // Nueva opción para verificar conexión SQLite
-	    System.out.println("6) Hibernate"); // Nueva opción para verificar conexión Hibernate
+		System.out.println("4) Base de Datos MySQL");
+		System.out.println("5) Base de Datos SQLite");
+		System.out.println("6) Hibernate");
 		System.out.println("0) Salir");
 		System.out.print("Ingrese su opción: ");
 		return scanner.nextInt();
 	}
 
+	// Método que muestra el menú de acciones disponibles sobre las películas y
+	// devuelve la opción seleccionada
 	public int mostrarMenuAcciones() {
 		System.out.println("¿Qué desea hacer?");
 		System.out.println("1) Añadir película");
@@ -38,27 +42,42 @@ public class Vista {
 		return scanner.nextInt();
 	}
 
-	// Métodos adicionales para obtener datos del usuario (título, director, etc.)
+	// Método que recoge los datos necesarios para crear un objeto Pelicula a partir
+	// de la entrada del usuario
 	public Pelicula obtenerDatosPelicula() {
 		System.out.print("Ingrese ID: ");
 		int id = scanner.nextInt();
-		scanner.nextLine(); // Consumir el salto de línea
+		scanner.nextLine();
 		System.out.print("Ingrese Título: ");
 		String titulo = scanner.nextLine();
 		System.out.print("Ingrese Director: ");
 		String director = scanner.nextLine();
 		System.out.print("Ingrese Año: ");
 		int anio = scanner.nextInt();
-		scanner.nextLine(); // Consumir el salto de línea
-		System.out.print("Ingrese Género: ");
-		String genero = scanner.nextLine();
-		return new Pelicula(id, titulo, director, anio, genero);
+		scanner.nextLine();		
+	    String genero;
+	    while (true) {
+	        System.out.println("Seleccione un género de las siguientes opciones:");
+	        System.out.println(String.join(", ", Pelicula.getGenerosValidos())); // Mostrar los géneros válidos
+	        System.out.print("Ingrese Género: ");
+	        genero = scanner.nextLine();
+	        if (Pelicula.getGenerosValidos().contains(genero)) {
+	            break; // Salir del bucle si el género es válido
+	        }
+	        System.out.println("Género no válido. Por favor, intente de nuevo.");
+	    }
+
+	    return new Pelicula(id, titulo, director, anio, genero);
 	}
-	
+
+	// Método que solicita y devuelve el ID de la película que se desea buscar,
+	// modificar o borrar
 	public int obtenerId() {
-	    System.out.print("Ingrese ID de la película: ");
-	    return scanner.nextInt();
+		System.out.print("Ingrese ID de la película: ");
+		return scanner.nextInt();
 	}
 	
+	
+	  
 
 }

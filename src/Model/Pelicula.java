@@ -86,10 +86,23 @@ public class Pelicula implements Serializable {
         }
         this.genero = genero;
     }
+    
+    public static Set<String> getGenerosValidos() {
+        return GENEROS_VALIDOS;
+    }
 
     @Override
     public String toString() {
-        return "Pelicula [id=" + id + ", titulo=" + titulo + ", director=" + director + ", anio=" + anio + ", genero=" + genero + "]";
+        return String.format(
+            "- Película %d: %s\n" +
+            "   - ID: %d\n" +
+            "   - Nombre: %s\n" +
+            "   - Director: %s\n" +
+            "   - Año: %d\n" +
+            "   - Género: %s\n" +
+            "--------------------------",
+            id, titulo, id, titulo, director, anio, genero
+        );
     }
 }
 
